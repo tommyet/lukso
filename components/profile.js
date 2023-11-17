@@ -91,8 +91,10 @@ export default function Profile({setAuthorAttrs}) {
           }}
         ></div>
       </div>
-      <span className="username"> {profileInfo.name} </span>
-      <p className="addressField">{profileInfo.address}</p>
+      <div className="profileInfo">
+        <h3 className="addressTitle">Lukso Address</h3>
+        <p className="addressField">{profileInfo.address}</p>
+      </div>
     </div>
   );
 }

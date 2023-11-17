@@ -454,3 +454,307 @@ textarea {
   margin-bottom: 0%;
   margin-top: 10px;
 }
+
+/* custom Toby */
+
+ :root {
+  --bg-op: 0.8;
+ }
+
+.notificationWrapping {
+  display: none;
+}
+
+html {
+  margin: 0;
+  padding:0;
+  width:100%;
+  height: 100%;
+  background:rgb(133,145,195);
+}
+
+body {
+  margin: 0;
+  padding:0;
+  width:100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 20%, rgba(133,145,195,var(--bg-op)) 0%, rgba(143,145,195,var(--bg-op)) 15%, rgba(133,135,185,var(--bg-op)) 30%, rgba(143,135,185, var(--bg-op)) 40%, rgba(133,155,185, var(--bg-op)) 62%, rgba(123,145,205,var(--bg-op)) 78%, rgba(133,125,205,var(--bg-op)) 91%);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+#__next {
+  height: 100%;
+}
+
+h2 {
+  font-size: 28px;
+  text-align: center;
+}
+
+h3 {
+  font-size: 20px;
+  text-align: center;
+}
+
+.App {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.pageWrapper {
+  flex:1;
+  width:100%;
+  border-radius: 0;
+  max-width: none;
+  padding:0;
+  display:flex;
+  flex-direction: column;
+}
+
+/* browse */
+
+.cardsStack {
+  margin:30px;
+  flex:1;
+}
+
+.cardPost {
+  position: relative;
+  width:auto;
+  margin:10%;
+  padding:10%;
+  box-shadow: 0 0 30px 30px rgba(0,0,0,0.1);
+  background: radial-gradient(circle at 50% 50%,rgba(255,255,255,0.9) 60%, rgba(255,255,255,0.2) 120%);
+  border:rgba(255,255,255,0.2) 3px solid;
+  border-radius: 15px;
+  height: fit-content;
+}
+
+.cardPost:hover {
+  background: radial-gradient(circle at 50% 50%,rgba(255,255,255,0.9) 60%, rgba(255,255,255,0.2) 120%);
+}
+
+.post.cardPost {
+  display: none;
+  flex-direction: column;
+}
+
+.cardPost.card_0 {
+  display: flex;
+}
+
+.arrowContainer {
+  display: none;
+  justify-content: center;
+}
+.arrowContainer.card_0 {
+  display: flex;
+}
+
+.emptyCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  place-items: center;
+}
+
+.emptyCard .emptyUp {
+  background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.3) 30%, transparent 67%);
+}
+.emptyCard h3 {
+  margin-top:30px;
+}
+
+.cardPost .postAbove {
+  position: absolute;
+  margin-top: -20%;
+  width: 100%;
+  margin-left: -13%;
+  padding: 0 30px;
+}
+
+.cardPost .postprofile {
+  position: relative;
+  margin-left:0;
+  margin-right:0;
+  max-width: none;
+}
+
+.cardPost .postAbove .postNameAddress {
+  margin-top: -40px;
+  display:flex;
+} 
+.cardPost .postAbove .postNameAddress .postName {
+  width:50%;
+} 
+.cardPost .postAbove .postNameAddress .postAddress {
+  width:50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+  padding-left:120px;
+}
+
+.cardPost .postBelow {
+  flex:1;
+  position: relative;
+  margin-top:40px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cardPost .postBelow h2 {
+  text-align: left;
+}
+
+.cardPost .postBelow .textPreview {
+  /* flex:1; */
+}
+
+
+.cardPost .postBelow .textDate {
+  font-style: italic;
+  opacity:0.5;
+}
+
+.cardPost .postBelow .likesCommentsRow {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.cardPost .postBelow .likesCommentsRow .postNumStatsContainer  {
+  display: flex;
+}
+
+.cardPost .postBelow .postNumStats {
+  margin-left:10px;
+  margin-bottom: 0;
+  height: min-content;
+  align-self: center;
+}
+
+.cardPost .postBelow .textDate {
+  font-style: italic;
+  opacity:0.5;
+}
+
+/* profile */
+
+.profile {
+  min-height: auto;
+  display: flex;
+}
+
+.profile .profileImage {
+  width:100px;
+  height:100px;
+}
+
+.profile .profileImage .identicon {
+  width:90px;
+  height:90px;
+}
+
+.profile .profileImage .image {
+  width:78px;
+  height:78px;
+  opacity: 0.5;
+}
+
+.profile .profileInfo {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding:20px;
+  margin-left:10px;
+  justify-content: center;
+}
+
+.profile .profileInfo .addressTitle {
+  text-align: left;
+  margin-bottom: 5px;
+}
+.profile .profileInfo .addressField {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* create */
+
+.createCard {
+  display: flex;
+  flex-direction: column;
+}
+
+form {
+  flex:1;
+  display: flex;
+  flex-direction: column;
+}
+
+form .titleField {
+  background:white;
+}
+
+form .textField {
+  min-height: auto;
+  background:white;
+  flex:1;
+}
+
+.postButton {
+  background-color: rgb(133,145,195);
+  border: rgb(102, 116, 175) 1px solid;
+  transition: background-color 200ms ease;
+  margin-bottom:0;
+  margin-top:10px;
+}
+
+.postButton:hover {
+  background-color: rgb(102, 116, 175);
+  border: rgb(133,145,195) 1px solid;
+}
+
+/* nav */
+
+.bottomNavBar {
+  display: flex;  
+  min-height:70px;
+  opacity: 1;
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 0 30px 30px rgba(0,0,0,0.02);
+}
+
+.bottomNavBar > .nav-link {
+  flex:1; 
+  margin:auto;
+  max-width:40px;
+  height:40px;
+  cursor:pointer;
+}
+
+/* misc */
+
+.ReactModal__Body--open .App {
+  filter:blur(5px);
+}
+
+.ReactModalPortal .ReactModal__Overlay {
+  background-color:rgba(255, 255, 255, 0.4) !important;
+}
+
+.ReactModalPortal .ReactModal__Content {
+  box-shadow: 0 0 30px 10px rgba(0,0,0,0.1);
+}
+
+.Footer {
+  display: none;
+}
+
+.rightEmptyPage {
+  display: none;
+}

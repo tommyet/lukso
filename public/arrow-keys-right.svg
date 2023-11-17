@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg height="24" viewBox="0 -960 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+  <rect style="fill: none; stroke-width: 40px; stroke-opacity: 0.5; stroke: rgb(255, 255, 255);" x="372.785" y="-761.351" width="200" height="200" rx="30" ry="30"/>
+  <rect style="fill: none; stroke-width: 40px; stroke-opacity: 0.5; stroke: rgb(255, 255, 255);" x="374.257" y="-489.436" width="200" height="200" rx="30" ry="30"/>
+  <rect style="fill: none; stroke-width: 40px; stroke: rgb(255, 255, 255);" x="652.928" y="-485.652" width="200" height="200" rx="30" ry="30"/>
+  <rect style="fill: none; stroke-width: 40px; stroke: rgb(255, 255, 255); stroke-opacity: 0.5;" x="93.914" y="-488.763" width="200" height="200" rx="30" ry="30"/>
+  <path style="fill: none; stroke-width: 30px; stroke-linecap: round; stroke-linejoin: round; stroke: rgb(255, 255, 255); stroke-opacity: 0.5;" d="M 215.948 -352.307 L 162.942 -392.361 L 217.56 -427.003"/>
+  <path style="fill: none; stroke-width: 30px; stroke-linecap: round; stroke-linejoin: round; stroke: rgb(255, 255, 255);" d="M 782.98 -349.121 L 729.974 -389.175 L 784.592 -423.817" transform="matrix(-1, 0, 0, -1, 1514.565979, -772.937988)"/>
+</svg>

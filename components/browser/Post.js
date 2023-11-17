@@ -1,13 +1,14 @@
 import { useRouter } from 'next/router';
 import identicon from 'ethereum-blockies-base64';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 const Post = ({ title, text, likes, postId, comments, name,
-  profilePicture, authorAddress, date }) => {
+  profilePicture, authorAddress, date, index, currentpost }) => {
   const router = useRouter();
   const identiconPicture = '';
   const accounts = '';
-
+  console.log('post',index,currentpost)
   // On mount
   useEffect(() => {
     loadIdenticonPicture();
@@ -82,10 +83,17 @@ const Post = ({ title, text, likes, postId, comments, name,
       handleBlogpostValues('text', text);
     }
   }
-
+  
+  var displaystyle = "flex";
+  if (currentpost!=index){
+    displaystyle = "none";
+  }
+  const style = {
+    display: displaystyle
+  }
   return (
-    <div onClick={() => router.push(`/post/${postId}`)} className="post">
-      <div className="postLeft">
+    <div onClick={() => router.push(`/post/${postId}`)} className={`post cardPost card_${index}`} key={index} style={style}>
+      <div className="postAbove">
         <div className="postprofile">
           <div className="profileImage">
             <div
@@ -115,28 +123,41 @@ const Post = ({ title, text, likes, postId, comments, name,
             }
 
           </div>
-          {
-            name? (
-              <a
-                href={`https://l16.universalprofile.cloud/${authorAddress}`}
-                target='_blank'
-                rel="noreferrer"
-              >
-                @{name}
-              </a>
-            ):
-              '@anonymous'
-          }
+          <div className="postNameAddress">
+            <div className="postName">
+              {
+                name? (
+                  <a
+                    href={`https://l16.universalprofile.cloud/${authorAddress}`}
+                    target='_blank'
+                    rel="noreferrer"
+                  >
+                    @{name}
+                  </a>
+                ):
+                  '@anonymous'
+              }
+            </div>
+            <div className="postAddress">
+              {authorAddress}
+            </div>
+          </div>
         </div>
       </div>
-      <div className="postRight">
-        <div className="">
-          {likes.length} {likes.length > 1? 'likes':'like'} and {comments.length}
-          {comments.length > 1? ' comments': ' comment'} since{' '}
-          {blogpost.date}
-        </div>
-        <h4> {blogpost.title}</h4>
+      <div className="postBelow">
+        <h2> {blogpost.title}</h2>
         <p className="textPreview">{blogpost.text}</p>
+        <p className="textDate">{blogpost.date}</p> 
+        <div className="likesCommentsRow">
+          <div className="postNumStatsContainer likesPreview">
+            <Image src="/heart-dark.svg" width="20" height="20" />
+            <p className="postNumStats numLikes">{likes.length}</p>
+          </div>
+          <div className="postNumStatsContainer commentsPreview">
+            <Image src="/comment.svg" width="20" height="20" />
+            <p className="postNumStats numComments">{comments.length}</p>
+          </div>
+        </div>
       </div>
     </div>
   );
