@@ -6,8 +6,9 @@ export default function BottomNavbar() {
 	const router = useRouter();
 	return (
 		<div className="bottomNavBar">
-			<div id="hearted" className="nav-link"  onClick={() => router.push('/create')}>
-				<Image src="/heart.svg" width="40" height="40" />
+			<div id="hearted" className="nav-link"  onClick={() => 
+				window.open('https://github.com/tommyet/lukso', '_blank', 'noopener,noreferrer')}>
+				<Image src="/github.svg" width="40" height="40" />
 			</div>
 			<div id="browse" className="nav-link"  onClick={() => router.push('/browse')}>
 				<Image src="/stack.svg" width="40" height="40" />

@@ -48,6 +48,7 @@ export async function isL16() {
   try {
     const web3 = new Web3(window.ethereum);
     let chainId = await web3.eth.getChainId();
+    console.log('chainId',chainId);
     if (chainId == CHAIN_IDS.L16) {
       return true;
     }

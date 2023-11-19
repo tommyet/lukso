@@ -78,21 +78,23 @@ function BrowsePost() {
   }
 
   const renderPosts = (currentpost) => {
+    console.log(posts);
     return (
       <div className="cardsStack">
         {posts.map((post, index) => (
           <div className="cardAndArrows" key={index}>
             <Post
               title={post.title}
-              text={post.text}
-              comments={post.comments}
-              likes={post.likes}
-              postId={post.id}
+              addrLeft={post.addrLeft}
+              addrRight={post.addrRight}
+              likesLeft={post.likesLeft || []}
+              likesRight={post.likesRight || []}
               name={post.authorAttrs.name}
               profilePicture={post.authorAttrs.profilePicture}
               authorAddress={post.author}
               date={post.date}
               index={index}
+              totalPosts={posts.length}
               currentpost={currentpost}
             />
             {

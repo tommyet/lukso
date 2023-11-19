@@ -1,64 +1,95 @@
 import { useRouter } from 'next/router';
 import identicon from 'ethereum-blockies-base64';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Image from 'next/image';
+import { GlobalContext } from '../../contexts/GlobalContext';
 
-const Post = ({ title, text, likes, postId, comments, name,
-  profilePicture, authorAddress, date, index, currentpost }) => {
+const Post = ({ title, addrLeft, addrRight, likesLeft, likesRight, name,
+  profilePicture, authorAddress, date, index, currentpost, totalPosts }) => {
+    
+  const {
+    account,
+  } = useContext(GlobalContext);
+  
+  console.log(account)
+  
   const router = useRouter();
   const identiconPicture = '';
   const accounts = '';
-  console.log('post',index,currentpost)
   // On mount
   useEffect(() => {
+    loadVotes();
     loadIdenticonPicture();
-    formatText()
-    formatDate()
+    formatText();
+    formatDate();
   }, []);
 
   const [blogpost, setBlockpostValues] = useState({
     title: '',
-    text: '',
+    addrLeft: '',
+    addrRight: '',
     author: '',
     identicon: '',
     name: 'anonymous',
     date: '',
     profilePicture: '',
-    likes: 0,
-    comments: [],
+    likesLeft: [],
+    likesRight: [],
   });
+
+  const [hasVoted, setHasVoted] = useState({voted:'neither'});
 
   const handleBlogpostValues = (name, value) => {
     setBlockpostValues((prevValues) => {
       return { ...prevValues, [name]: value };
     });
   };
+  
+  const loadVotes = () => {
+    // right vote takes precedence if there is duplication
+    let tempLeftLikes = [];
+    for (var a of likesLeft) if (!likesRight.includes(a)) tempLeftLikes.push(a);
+    
+    handleBlogpostValues('likesLeft',tempLeftLikes);
+    handleBlogpostValues('likesRight',likesRight);
+
+    for (var a of likesLeft){
+      if (a == account) setHasVoted({voted:'left'});
+    }
+    for (var a of likesRight){
+      if (a == account) setHasVoted({voted:'right'});
+    }
+  }
+
+  const loadAddresses = () => {
+    handleBlogpostValues('addrLeft',addrLeft);
+    handleBlogpostValues('addrRight',addrRight);
+  }
 
   const formatDate = () => {
+    var today = new Date(date);
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
 
-        var today = new Date(date);
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
-
-        today = dd + '.' + mm + '.' + yyyy;
-        handleBlogpostValues('date', today);
+    today = dd + '.' + mm + '.' + yyyy;
+    handleBlogpostValues('date', today);
   }
 
   const formatText = () => {
-        // Trimm title if it has too many characters
-      if (title.length > 32) {
-        handleBlogpostValues('title', title.substring(0, 32) + '...');
-      } else {
-        handleBlogpostValues('title', title);
-      }
+      // Trimm title if it has too many characters
+    if (title.length > 32) {
+      handleBlogpostValues('title', title.substring(0, 32) + '...');
+    } else {
+      handleBlogpostValues('title', title);
+    }
 
-      // Trimm text if it has too many characters
-      if (text.length > 100) {
-        handleBlogpostValues('text', text.substring(0, 100) + '...');
-      } else {
-        handleBlogpostValues('text', text);
-      }
+    // // Trimm text if it has too many characters
+    // if (text.length > 100) {
+    //   handleBlogpostValues('text', text.substring(0, 100) + '...');
+    // } else {
+    //   handleBlogpostValues('text', text);
+    // }
   }
 
   async function loadIdenticonPicture() {
@@ -67,20 +98,61 @@ const Post = ({ title, text, likes, postId, comments, name,
 
     // generate identicon
     handleBlogpostValues('identicon', blockie);
-
-
-    // Trimm title if it has too many characters
-    if (title.length > 32) {
-      handleBlogpostValues('title', title.substring(0, 32) + '...');
-    } else {
-      handleBlogpostValues('title', title);
+  }
+  
+  function voteLeft(){
+    if (hasVoted.voted == 'left'){
+      setHasVoted({voted:'neither'});
+      setBlockpostValues((prevValues) => {
+        return { ...prevValues, likesLeft: prevValues['likesLeft'].filter(a => account!=a) };
+      });
     }
-
-    // Trimm text if it has too many characters
-    if (text.length > 100) {
-      handleBlogpostValues('text', text.substring(0, 100) + '...');
-    } else {
-      handleBlogpostValues('text', text);
+    else if (hasVoted.voted == 'right'){
+      setHasVoted({voted:'left'});
+      setBlockpostValues((prevValues) => {
+        return { 
+          ...prevValues, 
+          likesLeft: [...prevValues['likesLeft'],account],
+          likesRight: prevValues['likesRight'].filter(a => account!=a)
+        };
+      });
+    }
+    else if (hasVoted.voted == 'neither'){
+      setHasVoted({voted:'left'});
+      setBlockpostValues((prevValues) => {
+        return { 
+          ...prevValues, 
+          likesLeft: [...prevValues['likesLeft'],account],
+        };
+      });
+    }
+  }
+  
+  function voteRight(){
+    if (hasVoted.voted == 'right'){
+      setHasVoted({voted:'neither'});
+      setBlockpostValues((prevValues) => {
+        return { ...prevValues, likesRight: prevValues['likesRight'].filter(a => account!=a) };
+      });
+    }
+    else if (hasVoted.voted == 'left'){
+      setHasVoted({voted:'right'});
+      setBlockpostValues((prevValues) => {
+        return { 
+          ...prevValues, 
+          likesRight: [...prevValues['likesRight'],account],
+          likesLeft: prevValues['likesLeft'].filter(a => account!=a)
+        };
+      });
+    }
+    else if (hasVoted.voted == 'neither'){
+      setHasVoted({voted:'right'});
+      setBlockpostValues((prevValues) => {
+        return { 
+          ...prevValues, 
+          likesRight: [...prevValues['likesRight'],account],
+        };
+      });
     }
   }
   
@@ -92,7 +164,7 @@ const Post = ({ title, text, likes, postId, comments, name,
     display: displaystyle
   }
   return (
-    <div onClick={() => router.push(`/post/${postId}`)} className={`post cardPost card_${index}`} key={index} style={style}>
+    <div className={`post cardPost card_${index}`} key={index} style={style}>
       <div className="postAbove">
         <div className="postprofile">
           <div className="profileImage">
@@ -145,20 +217,62 @@ const Post = ({ title, text, likes, postId, comments, name,
         </div>
       </div>
       <div className="postBelow">
-        <h2> {blogpost.title}</h2>
-        <p className="textPreview">{blogpost.text}</p>
-        <p className="textDate">{blogpost.date}</p> 
-        <div className="likesCommentsRow">
-          <div className="postNumStatsContainer likesPreview">
-            <Image src="/heart-dark.svg" width="20" height="20" />
-            <p className="postNumStats numLikes">{likes.length}</p>
-          </div>
-          <div className="postNumStatsContainer commentsPreview">
-            <Image src="/comment.svg" width="20" height="20" />
-            <p className="postNumStats numComments">{comments.length}</p>
-          </div>
+        <div className="postTitleRow">
+          <h2> {blogpost.title}</h2>
+          <p className="specialtxt textDate">{blogpost.date}</p>
+        </div>
+        <div className="viewOnChainRow">
+          <a href={"https://explorer.execution.testnet.lukso.network/address/"+addrLeft} target="_blank">view on chain</a>
+          <a href={"https://explorer.execution.testnet.lukso.network/address/"+addrRight} target="_blank">view on chain</a>
+        </div>
+        <div className="nftImgs">
+          {
+          hasVoted.voted == 'left' ? (<>
+            <Image className="nftLeft votedfor" src="/cryptopunk1.jpg" width="500px" height="500px" onClick={voteLeft}/>
+            <Image className="nftRight notvotedfor" src="/cryptopunk2.jpg" width="500px" height="500px" onClick={voteRight}/>
+          </>) : hasVoted.voted == 'right' ? (<>
+            <Image className="nftLeft notvotedfor" src="/cryptopunk1.jpg" width="500px" height="500px" onClick={voteLeft}/>
+            <Image className="nftRight votedfor" src="/cryptopunk2.jpg" width="500px" height="500px" onClick={voteRight}/>
+          </>) : hasVoted.voted == 'neither' ? (<>
+            <Image className="nftLeft" src="/cryptopunk1.jpg" width="500px" height="500px" onClick={voteLeft}/>
+            <Image className="nftRight" src="/cryptopunk2.jpg" width="500px" height="500px" onClick={voteRight}/>
+          </>) : <></>
+        }
+        </div>
+        <div className="likesRow">
+          {
+            hasVoted.voted == 'left' ? (<>
+              <div className="postNumStatsContainer likesLeft liked" onClick={voteLeft}>
+                <Image src="/heart-red.svg" width="30" height="30" />
+                <p className="postNumStats numLikesLeft">{blogpost.likesLeft.length}</p>
+              </div>
+              <div className="postNumStatsContainer likesRight" onClick={voteRight}>
+                <Image src="/heart-dark.svg" width="30" height="30" />
+                <p className="postNumStats numLikesRight">{blogpost.likesRight.length}</p>
+              </div>
+            </>) : hasVoted.voted == 'right' ? (<>
+              <div className="postNumStatsContainer likesLeft" onClick={voteLeft}>
+                <Image src="/heart-dark.svg" width="30" height="30" />
+                <p className="postNumStats numLikesLeft">{blogpost.likesLeft.length}</p>
+              </div>
+              <div className="postNumStatsContainer likesRight liked" onClick={voteRight}>
+                <Image src="/heart-red.svg" width="30" height="30" />
+                <p className="postNumStats numLikesRight">{blogpost.likesRight.length}</p>
+              </div>
+            </>) : hasVoted.voted == 'neither' ? (<>
+              <div className="postNumStatsContainer likesLeft" onClick={voteLeft}>
+                <Image src="/heart-dark.svg" width="30" height="30" />
+                <p className="postNumStats numLikesLeft">{blogpost.likesLeft.length}</p>
+              </div>
+              <div className="postNumStatsContainer likesRight" onClick={voteRight}>
+                <Image src="/heart-dark.svg" width="30" height="30" />
+                <p className="postNumStats numLikesRight">{blogpost.likesRight.length}</p>
+              </div>
+            </>) : <></>
+          }
         </div>
       </div>
+      <p className="specialtxt postNum">{index+1} / {totalPosts}</p>
     </div>
   );
 };

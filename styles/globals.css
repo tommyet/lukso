@@ -250,7 +250,6 @@ html {
 }
 
 .post {
-  cursor: pointer;
   background-color: #F5F3F3;
   margin-bottom: 10px;
   border-radius: 5px;
@@ -306,7 +305,7 @@ html {
   margin: 0 6px;
   width: 88px;
   height: 88px;
-  background-color: rgba(196,196,196,0.5);
+  background-color: rgba(255,255,255,0.3);
 }
 
 .postLeft {
@@ -606,26 +605,62 @@ h3 {
   overflow: hidden;
 }
 
+.cardPost .postBelow .postTitleRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
 .cardPost .postBelow h2 {
   text-align: left;
 }
 
-.cardPost .postBelow .textPreview {
-  /* flex:1; */
+.cardPost .postBelow .viewOnChainRow {
+  display: flex;
+  justify-content: space-around;
+}
+.cardPost .postBelow .viewOnChainRow a {
+  color: rgb(160,160,160); 
 }
 
+.cardPost .postBelow .nftImgs {
+  display: flex;
+  justify-content: space-around;
+}
+
+.cardPost .postBelow .nftImgs .nftLeft {
+  padding: 5px !important;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: opacity 100ms ease;
+}
+
+.cardPost .postBelow .nftImgs .nftRight {
+  padding: 5px !important;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: opacity 100ms ease;
+}
+
+.cardPost .postBelow .nftImgs .votedfor {
+  opacity: 1;
+}
+.cardPost .postBelow .nftImgs .notvotedfor {
+  opacity: 0.8;
+}
 
 .cardPost .postBelow .textDate {
   font-style: italic;
   opacity:0.5;
 }
 
-.cardPost .postBelow .likesCommentsRow {
+.cardPost .postBelow .likesRow {
+  margin-top:20px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
-.cardPost .postBelow .likesCommentsRow .postNumStatsContainer  {
+.cardPost .postBelow .likesRow .postNumStatsContainer  {
   display: flex;
 }
 
@@ -634,11 +669,19 @@ h3 {
   margin-bottom: 0;
   height: min-content;
   align-self: center;
+  font-size: 25px;
+}
+.cardPost .postBelow .postNumStatsContainer {
+  cursor: pointer;
 }
 
-.cardPost .postBelow .textDate {
-  font-style: italic;
-  opacity:0.5;
+.cardPost .postNum {
+  margin-bottom: 5px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  left: 0;
 }
 
 /* profile */
@@ -738,6 +781,11 @@ form .textField {
 }
 
 /* misc */
+
+.specialtxt {
+  font-style: italic;
+  opacity:0.5;
+}
 
 .ReactModal__Body--open .App {
   filter:blur(5px);

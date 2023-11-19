@@ -60,6 +60,7 @@ const GlobalProvider = ({ children }) => {
   }
 
   const fetchPosts = async () => {
+    // console.log(LSP7Contract)
     try {
       let {
         0: postsList,
@@ -67,7 +68,8 @@ const GlobalProvider = ({ children }) => {
         2: commentCounter,
         3: admin,
       } = await LSP7Contract.methods.fetchPosts().call();
-
+      
+      
       let formattedPostsList = [];
       await Promise.all(
         await postsList.map(async (post) => {
@@ -127,7 +129,7 @@ const GlobalProvider = ({ children }) => {
     });
 
     ethereum.on('chainChanged', function (networkId) {
-      if (networkId != 2828) {
+      if (networkId != 4201) {
         setChainError(true);
       } else {
         setChainError(false);

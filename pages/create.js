@@ -10,7 +10,8 @@ import BottomNavbar from '../components/BottomNavbar';
 function CreatePost() {
   const [blogpost, setBlockpostValues] = useState({
     title: '',
-    text: '',
+    addrLeft: '',
+    addrRight: '',
   });
 
   const [error, setError] = useState('');
@@ -51,7 +52,8 @@ function CreatePost() {
     try {
       const postJson = JSON.stringify({
         title: blogpost.title,
-        text: blogpost.text,
+        addrLeft: blogpost.addrLeft,
+        addrRight: blogpost.addrRight,
         date: new Date().toISOString()
       });
       ipfsResult = await ipfs.add({ content: postJson, pin: true });
@@ -74,13 +76,13 @@ function CreatePost() {
             ...posts,
             {
               title: blogpost.title,
-              text: blogpost.text,
+              addrLeft: blogpost.addrLeft,
+              addrRight: blogpost.addrRight,
               date: new Date().toISOString(),
               author: account,
               authorAttrs,
-              id: tokenIdCounter + 1,
-              comments: [],
-              likes: [],
+              likesLeft: [],
+              likesRight: [],
             },
           ]);
           setTokenIdCounter((s) => s + 1);
@@ -131,7 +133,7 @@ function CreatePost() {
                 <input
                   required
                   className="titleField"
-                  placeholder="What are you writing about?"
+                  placeholder="What is the name of the contest?"
                   id="posttitle"
                   type="text"
                   value={blogpost.title}
@@ -139,19 +141,31 @@ function CreatePost() {
                   onChange={changeHandler}
                 ></input>
                 <br />
-                <label>Text</label>
-                <textarea
+                <label>NFT Address 1</label>
+                <input
                   required
-                  id="posttext"
-                  placeholder="Start writing a blogpost..."
-                  className="textField"
+                  className="titleField"
+                  placeholder="Contract address for artwork 1"
+                  id="addrLeft"
                   type="text"
-                  value={blogpost.text}
-                  name="text"
+                  value={blogpost.addrLeft}
+                  name="addrLeft"
                   onChange={changeHandler}
-                ></textarea>
+                ></input>
+                <br/>
+                <label>NFT Address 2</label>
+                <input
+                  required
+                  className="titleField"
+                  placeholder="Contract address for artwork 2"
+                  id="addrRight"
+                  type="text"
+                  value={blogpost.addrRight}
+                  name="addrRight"
+                  onChange={changeHandler}
+                ></input>
                 <button type="submit" className="postButton">
-                  submit blogpost
+                  submit contest
                 </button>
               </form>
               <div id="status">{blogpost.status}</div>
