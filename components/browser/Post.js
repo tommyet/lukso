@@ -4,8 +4,7 @@ import { useEffect, useState, useContext } from 'react';
 import Image from 'next/image';
 import { GlobalContext } from '../../contexts/GlobalContext';
 
-const Post = ({ title, addrLeft, addrRight, likesLeft, likesRight, name,
-  profilePicture, authorAddress, date, index, currentpost, totalPosts }) => {
+const Post = ({ title, addrLeft, addrRight, expiry, likesLeft, likesRight, name, profilePicture, authorAddress, date, index, currentpost, totalPosts }) => {
     
   const {
     account,
@@ -28,6 +27,7 @@ const Post = ({ title, addrLeft, addrRight, likesLeft, likesRight, name,
     title: '',
     addrLeft: '',
     addrRight: '',
+    expiry: '',
     author: '',
     identicon: '',
     name: 'anonymous',
@@ -74,6 +74,9 @@ const Post = ({ title, addrLeft, addrRight, likesLeft, likesRight, name,
 
     today = dd + '.' + mm + '.' + yyyy;
     handleBlogpostValues('date', today);
+    
+    console.log('expiry',expiry)
+    handleBlogpostValues('expiry', expiry);
   }
 
   const formatText = () => {
@@ -156,6 +159,9 @@ const Post = ({ title, addrLeft, addrRight, likesLeft, likesRight, name,
     }
   }
   
+  const img1 = "/cryptopunk"+(2*index%3+1)+".jpg";
+  const img2 = "/cryptopunk"+(2*index%3+2)+".jpg";
+
   var displaystyle = "flex";
   if (currentpost!=index){
     displaystyle = "none";
@@ -228,14 +234,14 @@ const Post = ({ title, addrLeft, addrRight, likesLeft, likesRight, name,
         <div className="nftImgs">
           {
           hasVoted.voted == 'left' ? (<>
-            <Image className="nftLeft votedfor" src="/cryptopunk1.jpg" width="500px" height="500px" onClick={voteLeft}/>
-            <Image className="nftRight notvotedfor" src="/cryptopunk2.jpg" width="500px" height="500px" onClick={voteRight}/>
+            <Image className="nftLeft votedfor" src={img1} width="500px" height="500px" onClick={voteLeft}/>
+            <Image className="nftRight notvotedfor" src={img2} width="500px" height="500px" onClick={voteRight}/>
           </>) : hasVoted.voted == 'right' ? (<>
-            <Image className="nftLeft notvotedfor" src="/cryptopunk1.jpg" width="500px" height="500px" onClick={voteLeft}/>
-            <Image className="nftRight votedfor" src="/cryptopunk2.jpg" width="500px" height="500px" onClick={voteRight}/>
+            <Image className="nftLeft notvotedfor" src={img1} width="500px" height="500px" onClick={voteLeft}/>
+            <Image className="nftRight votedfor" src={img2} width="500px" height="500px" onClick={voteRight}/>
           </>) : hasVoted.voted == 'neither' ? (<>
-            <Image className="nftLeft" src="/cryptopunk1.jpg" width="500px" height="500px" onClick={voteLeft}/>
-            <Image className="nftRight" src="/cryptopunk2.jpg" width="500px" height="500px" onClick={voteRight}/>
+            <Image className="nftLeft" src={img1} width="500px" height="500px" onClick={voteLeft}/>
+            <Image className="nftRight" src={img2} width="500px" height="500px" onClick={voteRight}/>
           </>) : <></>
         }
         </div>
@@ -272,6 +278,7 @@ const Post = ({ title, addrLeft, addrRight, likesLeft, likesRight, name,
           }
         </div>
       </div>
+      <p className="postExpiry"><span className="lessimportant">Contest expires on the</span> {blogpost.expiry}</p>
       <p className="specialtxt postNum">{index+1} / {totalPosts}</p>
     </div>
   );

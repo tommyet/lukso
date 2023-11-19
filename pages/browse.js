@@ -87,6 +87,7 @@ function BrowsePost() {
               title={post.title}
               addrLeft={post.addrLeft}
               addrRight={post.addrRight}
+              expiry={post.expiry}
               likesLeft={post.likesLeft || []}
               likesRight={post.likesRight || []}
               name={post.authorAttrs.name}

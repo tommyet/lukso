@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Profile from '../components/profile';
@@ -6,12 +6,15 @@ import { GlobalContext } from '../contexts/GlobalContext';
 import ipfsNode from '../utils/ipfs-node';
 import Loader from '../components/shared/loader';
 import BottomNavbar from '../components/BottomNavbar';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 function CreatePost() {
   const [blogpost, setBlockpostValues] = useState({
     title: '',
     addrLeft: '',
     addrRight: '',
+    expiry: '',
   });
 
   const [error, setError] = useState('');
@@ -31,6 +34,27 @@ function CreatePost() {
     setTokenIdCounter,
   } = useContext(GlobalContext);
 
+  useEffect(() => {
+    setExpiry();
+  }, []);
+
+  function convertDateFormats(dt){
+    const [year, month, day] = dt.split("-");
+    return `${day}/${month}/${year}`;
+  }
+
+  function setExpiry(){
+    const now = new Date();
+    now.setDate(now.getDate() + 1);
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // January is 0
+    const year = now.getFullYear();
+    
+    setBlockpostValues((prevValues) => {
+      return { ...prevValues, ['expiry']: `${year}-${month}-${day}` };
+    });
+  }
+  
   function changeHandler(e) {
     setError('');
     setBlockpostValues((prevValues) => {
@@ -54,7 +78,7 @@ function CreatePost() {
         title: blogpost.title,
         addrLeft: blogpost.addrLeft,
         addrRight: blogpost.addrRight,
-        date: new Date().toISOString()
+        expiry: convertDateFormats(blogpost.expiry)
       });
       ipfsResult = await ipfs.add({ content: postJson, pin: true });
       cid = ipfsResult.cid.toString();
@@ -78,6 +102,7 @@ function CreatePost() {
               title: blogpost.title,
               addrLeft: blogpost.addrLeft,
               addrRight: blogpost.addrRight,
+              expiry: convertDateFormats(blogpost.expiry),
               date: new Date().toISOString(),
               author: account,
               authorAttrs,
@@ -140,7 +165,6 @@ function CreatePost() {
                   name="title"
                   onChange={changeHandler}
                 ></input>
-                <br />
                 <label>NFT Address 1</label>
                 <input
                   required
@@ -152,7 +176,6 @@ function CreatePost() {
                   name="addrLeft"
                   onChange={changeHandler}
                 ></input>
-                <br/>
                 <label>NFT Address 2</label>
                 <input
                   required
@@ -164,6 +187,15 @@ function CreatePost() {
                   name="addrRight"
                   onChange={changeHandler}
                 ></input>
+                <label>Pick End Date</label>
+                <input
+                  required
+                  type="date"
+                  id="expiry"
+                  name="expiry"
+                  value={blogpost.expiry}
+                  onChange={changeHandler}
+                />
                 <button type="submit" className="postButton">
                   submit contest
                 </button>
