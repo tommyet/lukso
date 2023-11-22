@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { GlobalContext } from '../contexts/GlobalContext';
+import Image from 'next/image';
 
 function Login() {
   const router = useRouter();
@@ -47,12 +48,14 @@ function Login() {
 
   return (
     <div className="App">
-      <h2>you Lukso popular</h2>
-      <h3 className="centered">
-        Vote, rank, and stake your creations popularity!
-      </h3>
-      <br />
-      <button onClick={loginExtension}>Log in to your browser extension</button>
+      <div className="emptyCard cardPost">
+        <h2>you Lukso popular</h2>
+        <p className="specialtxt">
+          Vote, rank, and stake your creations popularity!
+        </p>
+        <Image className="notConnected" src="/connected.svg" width="175" height="175" />
+        <button className="loginButton" onClick={loginExtension}>Log in to your browser extension</button>
+      </div>
     </div>
   );
 }

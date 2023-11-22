@@ -806,6 +806,21 @@ form #expiry {
   border: rgb(133,145,195) 1px solid;
 }
 
+/* login */
+
+.loginButton {
+  background-color: rgb(133,145,195);
+  border: rgb(102, 116, 175) 1px solid;
+  transition: background-color 200ms ease;
+  margin-bottom:0;
+  margin-top:10px;
+}
+
+.loginButton:hover {
+  background-color: rgb(102, 116, 175);
+  border: rgb(133,145,195) 1px solid;
+}
+
 /* nav */
 
 .bottomNavBar {
