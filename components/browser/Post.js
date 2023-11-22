@@ -159,8 +159,8 @@ const Post = ({ title, addrLeft, addrRight, expiry, likesLeft, likesRight, name,
     }
   }
   
-  const img1 = "/cryptopunk"+(2*(index%3)+1)+".jpg";
-  const img2 = "/cryptopunk"+(2*(index%3)+2)+".jpg";
+  const img1 = "/nft"+(2*(index%3)+1)+".jpg";
+  const img2 = "/nft"+(2*(index%3)+2)+".jpg";
 
   var displaystyle = "flex";
   if (currentpost!=index){

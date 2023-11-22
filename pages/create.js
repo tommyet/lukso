@@ -14,6 +14,7 @@ function CreatePost() {
     title: '',
     addrLeft: '',
     addrRight: '',
+    stake: '',
     expiry: '',
   });
 
@@ -78,6 +79,7 @@ function CreatePost() {
         title: blogpost.title,
         addrLeft: blogpost.addrLeft,
         addrRight: blogpost.addrRight,
+        stake: blogpost.stake,
         expiry: convertDateFormats(blogpost.expiry)
       });
       ipfsResult = await ipfs.add({ content: postJson, pin: true });
@@ -102,6 +104,7 @@ function CreatePost() {
               title: blogpost.title,
               addrLeft: blogpost.addrLeft,
               addrRight: blogpost.addrRight,
+              stake: blogpost.stake,
               expiry: convertDateFormats(blogpost.expiry),
               date: new Date().toISOString(),
               author: account,
@@ -187,6 +190,17 @@ function CreatePost() {
                   name="addrRight"
                   onChange={changeHandler}
                 ></input>
+                <label>Stake amount</label>
+                <input
+                  required
+                  className="titleField"
+                  placeholder="LYXt"
+                  id="stake"
+                  type="text"
+                  value={blogpost.stake}
+                  name="stake"
+                  onChange={changeHandler}
+                ></input>
                 <label>Pick End Date</label>
                 <input
                   required
@@ -211,3 +225,4 @@ function CreatePost() {
 }
 
 export default CreatePost;
+
